@@ -19,10 +19,7 @@ output: html_document
 
 ## Required Packages
 
-* `vignette("selectorgadget")`
-* Drag link to bookmarks bar
-
-OR Install this Google Chrome extension https://selectorgadget.com/
+* Go to https://selectorgadget.com/
 * goto https://chrome.google.com/webstore/search/selector%20gadget and add to chrome
 
 
@@ -57,6 +54,12 @@ Find html node name for the thing I want to get
 ![](selectorgadget.PNG)
 
 
+Example: get just the house price. 
+```{r}
+chico %>% html_nodes(".data-price") %>% html_text()
+```
+
+
 extract details from card. convert to text, squish out whitespace
 ```{r}
 details <- chico %>% html_nodes(".detail-wrap") %>% html_text() %>% str_squish()
@@ -67,7 +70,7 @@ dta <- data.frame(details, stringsAsFactors = FALSE)
 
 I started by extracting one piece at a time, But some cards didn't have some info (like lot size), so I was getting different vector sizes. (not evaluated)
 ```{r, eval=FALSE}
-data.value <- chico %>% html_nodes(".data-value")
+data.value <- chico %>% html_nodes(".data-value") %>% html_text
 lot.label <- chico %>% html_node(".lot-label") %>% html_text()
 price <- chico %>% html_nodes(".data-price") %>% html_text()
 ```

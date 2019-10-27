@@ -1,0 +1,32 @@
+---
+title: '#CampFire Twitter Trends'
+author: "Math 685 students"
+date: "10/25/2019"
+output: html_document
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(broom)
+library(rtweet)
+
+set.seed(1067)
+theme_set(theme_minimal())
+```
+
+Refs
+* Official Docs: https://rtweet.info/
+* http://www.storybench.org/get-twitter-data-rtweet-r/
+* http://rpubs.com/petermcnamara/481358
+* get historical tweets https://stackoverflow.com/questions/56413157/downloading-historical-tweets-via-rtweet-from-premium-api-via-r
+
+
+Get tweets
+```{r}
+cf <- search_fullarchive(
+  q = "#CampFire",
+  n = 3000
+)
+```
+
