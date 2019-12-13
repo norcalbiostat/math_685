@@ -1,0 +1,22 @@
+---
+title: "Yet another tutorial to scrape Twitter using R"
+output: html_document
+---
+
+We will use the `rtweet` package for this exercise. 
+
+```{r, warning=FALSE, message=FALSE}
+library(rtweet)
+library(dplyr)
+```
+
+# Setup
+1. Make a Twitter account. 
+
+
+
+
+# Additioanl References
+* Official Docs: https://rtweet.info/
+* http://www.storybench.org/get-twitter-data-rtweet-r/
+
