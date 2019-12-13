@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+firetweetdata/twitter_curl_auth_keys.txt
+firetweetdata/twitter_token.Rds

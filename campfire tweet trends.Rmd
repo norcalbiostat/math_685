@@ -19,14 +19,87 @@ Refs
 * Official Docs: https://rtweet.info/
 * http://www.storybench.org/get-twitter-data-rtweet-r/
 * http://rpubs.com/petermcnamara/481358
+
+
+
+
+
+# Full historical search
+
 * get historical tweets https://stackoverflow.com/questions/56413157/downloading-historical-tweets-via-rtweet-from-premium-api-via-r
+* Official docs on how to get started: https://developer.twitter.com/en/docs/tweets/search/quick-start/premium-full-archive
+
+Get bearer token
+https://developer.twitter.com/en/docs/basics/authentication/guides/bearer-tokens
+
+* Save this info into a .txt file and **add this file to the gitignore**. This should not be public!
+
+```{r}
+twitter_token <- create_token(
+  app="campfiredata", 
+  consumer_key = "QlOOA0zePLxsvKg7FtxtmhAYC", 
+  consumer_secret = "qHzRIxXGpuo0DClC0kCjC65XBANnBfnqfBNPQZvl3Ju4WA1gef", 
+  access_token = "572383090-JJF2uD61U0vXUQ38vtUDO1pXmPZCCznYVS759wYm",
+  access_secret = "RnUthduVcLwuPNenqQq5KL2CHd7moKgyFpiGtYgG65KJi"
+)
+```
+
+```{r}
+r.token <- readRDS("firetweetdata/twitter_token.Rds")
+```
+
+```{r}
+test <- search_fullarchive("fire", 
+                           n=100, 
+                           env_name="campfiredata", 
+                           fromDate = "20181108", 
+                           toDate = "20181109", 
+                           parse=TRUE,
+                           token=r.token)
+```
+_not a valid access token_
 
 
 Get tweets
 ```{r}
 cf <- search_fullarchive(
   q = "#CampFire",
-  n = 3000
+  n=100,
+  fromDate= "20181108", 
+  toDate = "20181208", 
+  env_name = "campfiredata", 
+  safedir = "firetweetdata/", 
+  parse=TRUE, 
+  token="AAAAAAAAAAAAAAAAAAAAAK1KAgEAAAAAoAXFcTvwiKE4t%2FaK9lIrDlan7Mg%3DVSwTYystHE9tAdRs7wt75oPawd3576aUBiUiBIvKSP3Rq7voLO"
 )
 ```
+_not working_
+
+> initial example query looking for the term rtweet, filtering for tweets associated with news, excluding retweets and replies, starting on July 1, 2006 and ending on July 2, 2019
+
+`query <- "rtweet filter:news -filter:retweets -filter:replies since:2006-07-01 until:2019-07-02"`
+
+
+```{bash}
+  
+curl --request POST \
+  --url https://api.twitter.com/1.1/tweets/search/fullarchive/campfiredata.json \
+  --header 'authorization: Bearer AAAAAAAAAAAAAAAAAAAAAK1KAgEAAAAAoAXFcTvwiKE4t%2FaK9lIrDlan7Mg%3DVSwTYystHE9tAdR
+s7wt75oPawd3576aUBiUiBIvKSP3Rq7voLO' \
+  --header 'content-type: application/json' \
+  --data '{
+                "query":"fire",
+                "fromDate":"20181108", 
+                "toDate":"20181109",
+                "maxResults":"10"
+                }' \
+  -o file1.json
+                
+
+
+curl -verbose -X POST "https://api.twitter.com/1.1/tweets/search/fullarchive/campfiredata.json" -d '{"query":"TwitterDev "search api"","maxResults":"10","fromDate":"20181108","toDate":"20181109"}' -H "Authorization: Bearer AAAAAAAAAAAAAAAAAAAAAK1KAgEAAAAAoAXFcTvwiKE4t%2FaK9lIrDlan7Mg%3DVSwTYystHE9tAdR
+s7wt75oPawd3576aUBiUiBIvKSP3Rq7voLO" -o file1.json
+```
+
+
 
